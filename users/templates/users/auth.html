@@ -1,0 +1,16 @@
+{% extends 'tests/base.html' %}
+
+{% block title %}
+Страница авторизации
+{% endblock %}
+
+{% block content %}
+<h1>Страница авторизации</h1>
+<form method="post" class="form-reg auth">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-outline-primary" type="submit">Войти</button>
+    <hr>
+    <p>Ещё не зарегистрированы? <a href="{% url 'reg' %}">Перейти на страницу регистрации</a></p>
+</form>
+{% endblock %}

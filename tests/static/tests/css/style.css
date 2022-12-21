@@ -1,0 +1,54 @@
+a {
+    text-decoration: none;
+    transition: color 500ms ease;
+}
+
+a:hover {
+    color: #1f1f1f;
+}
+
+a.disabled {
+pointer-events: none;
+cursor: default;
+color: #888;
+}
+
+.tests .test {
+    background: #d9d8c1;
+    border: 1px solid silver;
+    border-radius: 5px;
+    width:40%;
+    padding:10px 20px 10px 10;
+    float:left;
+    text-align:center;
+    line-height:1.2;
+    margin: 5px;
+    height: 150px;
+}
+
+.spisok {
+    display: block;
+    margin: 5px;
+}
+
+.form-reg {
+    padding: 20px;
+    background: #fafafa;
+    border: 1px solid silver;
+    margin-top: 20px;
+    width: 600px;
+}
+
+.form-reg.auth input {
+    display: block;
+    width: 96%
+    margin-top: 5px;
+    border: 1px solid silver;
+    border-radius: 5px;
+    padding 2%;
+}
+
+.error_message {
+    color: red;
+    font-weight: 600;
+}

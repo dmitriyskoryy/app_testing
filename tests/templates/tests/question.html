@@ -1,0 +1,29 @@
+{% extends 'tests/base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+<!--<h1>{{ nametest.title }}</h1>-->
+<!--<hr>-->
+<!--<h3>{{ quest.text }}</h3>-->
+
+{% if error_message %}<p class="error_message">{{ error_message }}</p>{% endif %}
+
+<!--<form action="." method="post">-->
+<!--    {% csrf_token %}-->
+<!--    {% for i in answer %}-->
+<!--    <input type="radio" name="select" id="select {{ forloop.counter }}" value="{{ i.is_valid }}">-->
+<!--    <label>{{ i.text }}</label><br><br>-->
+<!--    {% endfor %}-->
+<!--    <input type="submit" class="btn btn-info" value="Далее">-->
+<!--</form>-->
+
+{{ quest.text }}
+{% for answer in answers %}
+    <br><br><input type="radio" name="select" id="select {{ forloop.counter }}" value="{{ i.is_valid }}">
+    <label>{{ answer.text }}</label>
+{% endfor %}
+
+{% endblock %}
