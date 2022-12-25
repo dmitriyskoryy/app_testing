@@ -30,7 +30,7 @@ class NameTest(models.Model):
     class Meta:
         verbose_name = 'Тест'
         verbose_name_plural = 'Тесты'
-        ordering = ['created_at']
+        # ordering = ['created_at']
 
     def __str__(self):
         return self.title
@@ -47,7 +47,7 @@ class Question(models.Model):
     class Meta:
         verbose_name = 'Вопрос'
         verbose_name_plural = 'Вопросы'
-        ordering = ['id']
+        # ordering = ['id']
 
     def __str__(self):
         return textwrap.shorten(self.text, width=50, placeholder="...")
@@ -57,11 +57,11 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
-    question = models.ForeignKey(Question, verbose_name='Вопрос', on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, verbose_name='Вопрос', on_delete=models.CASCADE, related_name='answer')
     text = models.CharField('Текст', max_length=255)
     is_valid = models.BooleanField('Правильность', default=False)
 
-    objects = AnswerQuerySet.as_manager()
+    # objects = AnswerQuerySet.as_manager()
 
     class Meta:
         verbose_name = 'Ответ'

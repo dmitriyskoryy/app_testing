@@ -5,9 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<!--<h1>{{ nametest.title }}</h1>-->
-<!--<hr>-->
-<!--<h3>{{ quest.text }}</h3>-->
+{% load static %}
 
 {% if error_message %}<p class="error_message">{{ error_message }}</p>{% endif %}
 
@@ -20,10 +18,59 @@
 <!--    <input type="submit" class="btn btn-info" value="Далее">-->
 <!--</form>-->
 
-{{ quest.text }}
-{% for answer in answers %}
-    <br><br><input type="radio" name="select" id="select {{ forloop.counter }}" value="{{ i.is_valid }}">
-    <label>{{ answer.text }}</label>
+
+{% for quest in quests %}
+    {{ quest.text }}<br>
+
+        {% for answer in quest.answer.all %}
+        <input type="radio" name="select" id="select {{ forloop.counter }}" value="{{ answer.is_valid }}" onclick="checkType(this)">
+        <label>{{ answer.text }}</label><br><br>
+        {% endfor %}
+
+    <div class="list_answer">
+        <form method="GET">
+            <input type="text" name="select_number"><br>
+            <button>Подтвертить ответ</button>
+        </form>
+    </div>
 {% endfor %}
 
+
+<br><br>
+
+{% if is_paginated %}
+    <div class="push_back">
+        {% if page_obj.has_next %}
+
+                <input type="text" name="page_number" value="{{ page_obj.number }}">
+                <a href="?page={{ page_obj.next_page_number }}">Далее</a>
+               <button>Завершить тестирование</button>
+
+        {% else %}
+                <input type="text" name="page_number" value="{{ page_obj.number }}">
+                <form action="result_test/" method="post">
+                    {% csrf_token %}
+                    <button>Завершить тестирование</button>
+                </form>
+        {% endif %}
+    </div>
+{% endif %}
+
+<script src="{% static 'js/script.js' %}"></script>
+
+
 {% endblock %}
+
+
+<!--onclick="checkType(this)"-->
+
+
+<!--{% for answer in answers %}-->
+<!--        <br><br><input type="radio" name="select" id="select {{ forloop.counter }}" value="i.is_valid">-->
+<!--        <label>{{ answer.text }}</label>-->
+<!--{% endfor %}-->
+<!--<form method="GET">-->
+<!--        <input type="text" name="id_quest" value={{q.id}}>-->
+<!--        <button name="resp_delete" value="333">Удалить</button>-->
+<!--</form>-->
+<!--                <a href="?page={{ page_obj.next_page_number }}">Далее</a>-->
