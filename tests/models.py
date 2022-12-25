@@ -71,6 +71,7 @@ class Answer(models.Model):
         return textwrap.shorten(self.text, width=50, placeholder="...")
 
 
+
 class CountAnswer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     nametest = models.ForeignKey(NameTest, on_delete=models.CASCADE)

@@ -1,18 +1,19 @@
+from django.shortcuts import render, redirect
 
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, get_object_or_404, redirect
 
 from django.views import generic
+from django.views.generic import TemplateView
+
 from .models import SetTests, NameTest, Question, Answer
+
+
 
 
 def index(request):
     settests = SetTests.objects.all()
     nametests = [{'title': s.title, 'tests': NameTest.objects.filter(settest=s)} for s in settests]
-
     return render(request, 'tests/index.html',
                   {'title': 'Главная страница сайта', 'settests': settests, 'nametests': nametests})
-
 
 
 
@@ -20,46 +21,41 @@ class QuestionView(generic.ListView):
     model = Question
     template_name = 'tests/question.html'
     context_object_name = 'quests'
+    list_id = []
     paginate_by = 1
+
+    def __init__(self):
+        self.list_id = [id_q.id for id_q in Question.objects.all()]
 
 
     def get_queryset(self):
         slug = self.kwargs.get('slug')
-        qs = Question.objects.filter(nametest__slug=slug)
+        if self.request.GET.get("select_number"):
+            if self.request.GET.get("quest_id"):
+                quest_id = self.request.GET.get("quest_id")
+                try:
+                    self.list_id.remove(int(quest_id))
+                except:
+                    print("id None")
+
+        qs = Question.objects.filter(nametest__slug=slug, id__in=self.list_id)
         return qs
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.GET.get("select_number"):
-            answer = self.request.GET.get("select_number")
-            print(answer)
-        return context
+
+    def get(self, request, *args, **kwargs):
+        result = self.request.GET.get("select_number")
+        btn_test = self.request.GET.get("btn_test")
+        if btn_test == "btn_finish":
+            print(f'btn_finish    {result}')
+            return redirect(f'/finish_test/')
+        elif btn_test == "btn_next":
+            print(f'btn_next    {result}')
+        return super().get(request, *args, **kwargs)
 
 
 
-def ResultAnswerView(request):
-    return HttpResponse("Подтверждение ответа")
-
-
-class ResultTestView(generic.View):
-    template_name = 'tests/result_test.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        # if self.request.GET.get("resp_delete"):
-        #     resp_id = self.request.GET.get("resp_delete")
-        #     delete_response(resp_id)
-
-        return context
-
-    # if request.method == 'POST':
-    #     print(f'gggggggggggggggg    {request}')
-    #
-    # return render(request, '/')
-
-
-
+class Finish_test(TemplateView):
+    template_name = 'tests/finish_test.html'
 
 
 

@@ -7,54 +7,29 @@
 {% block content %}
 {% load static %}
 
-{% if error_message %}<p class="error_message">{{ error_message }}</p>{% endif %}
-
-<!--<form action="." method="post">-->
-<!--    {% csrf_token %}-->
-<!--    {% for i in answer %}-->
-<!--    <input type="radio" name="select" id="select {{ forloop.counter }}" value="{{ i.is_valid }}">-->
-<!--    <label>{{ i.text }}</label><br><br>-->
-<!--    {% endfor %}-->
-<!--    <input type="submit" class="btn btn-info" value="Далее">-->
-<!--</form>-->
-
 
 {% for quest in quests %}
     {{ quest.text }}<br>
+    {% for answer in quest.answer.all %}
+    <input type="radio" name="select" id="select {{ forloop.counter }}" value="{{ answer.is_valid }}" onclick="radioSelect(this)">
+    <label>{{ answer.text }}</label><br><br>
+    {% endfor %}
 
-        {% for answer in quest.answer.all %}
-        <input type="radio" name="select" id="select {{ forloop.counter }}" value="{{ answer.is_valid }}" onclick="checkType(this)">
-        <label>{{ answer.text }}</label><br><br>
-        {% endfor %}
+    <br>
 
     <div class="list_answer">
         <form method="GET">
-            <input type="text" name="select_number"><br>
-            <button>Подтвертить ответ</button>
+            <input type="text" name="select_number" value="False"><br>
+            <input type="text" name="quest_id" value="{{ quest.id }}"><br>
+            {% if page_obj.has_next %}
+                <button name="btn_test" value="btn_next">Следующий вопрос</button>
+            {% else %}
+                <button name="btn_test" value="btn_finish">Завершить</button>
+            {% endif %}
         </form>
     </div>
+
 {% endfor %}
-
-
-<br><br>
-
-{% if is_paginated %}
-    <div class="push_back">
-        {% if page_obj.has_next %}
-
-                <input type="text" name="page_number" value="{{ page_obj.number }}">
-                <a href="?page={{ page_obj.next_page_number }}">Далее</a>
-               <button>Завершить тестирование</button>
-
-        {% else %}
-                <input type="text" name="page_number" value="{{ page_obj.number }}">
-                <form action="result_test/" method="post">
-                    {% csrf_token %}
-                    <button>Завершить тестирование</button>
-                </form>
-        {% endif %}
-    </div>
-{% endif %}
 
 <script src="{% static 'js/script.js' %}"></script>
 
@@ -62,15 +37,7 @@
 {% endblock %}
 
 
-<!--onclick="checkType(this)"-->
 
 
-<!--{% for answer in answers %}-->
-<!--        <br><br><input type="radio" name="select" id="select {{ forloop.counter }}" value="i.is_valid">-->
-<!--        <label>{{ answer.text }}</label>-->
-<!--{% endfor %}-->
-<!--<form method="GET">-->
-<!--        <input type="text" name="id_quest" value={{q.id}}>-->
-<!--        <button name="resp_delete" value="333">Удалить</button>-->
-<!--</form>-->
-<!--                <a href="?page={{ page_obj.next_page_number }}">Далее</a>-->
+
+
