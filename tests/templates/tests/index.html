@@ -11,7 +11,6 @@
     <div class="test">
         <h3> {{ nametest.title }}</h3>
         {% for test in nametest.tests %}
-<!--            <a class="spisok" href="/question/{{test.slug}}/1">{{ test.title }}</a>-->
         <a class="spisok" href="/test/{{test.slug}}/">{{ test.title }}</a>
         {% endfor %}
     </div>

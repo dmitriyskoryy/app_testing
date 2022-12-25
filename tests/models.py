@@ -1,10 +1,7 @@
 import textwrap
-
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
-
-from .querysets import AnswerQuerySet
 
 
 class SetTests(models.Model):
@@ -47,7 +44,7 @@ class Question(models.Model):
     class Meta:
         verbose_name = 'Вопрос'
         verbose_name_plural = 'Вопросы'
-        # ordering = ['id']
+
 
     def __str__(self):
         return textwrap.shorten(self.text, width=50, placeholder="...")
@@ -61,7 +58,6 @@ class Answer(models.Model):
     text = models.CharField('Текст', max_length=255)
     is_valid = models.BooleanField('Правильность', default=False)
 
-    # objects = AnswerQuerySet.as_manager()
 
     class Meta:
         verbose_name = 'Ответ'
