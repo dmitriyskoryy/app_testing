@@ -8,36 +8,60 @@
 {% load static %}
 
 
-{% for quest in quests %}
-    {{ quest.text }}<br>
+<h1>Вопрос {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</h1>
+<br>
+{% for quest in page_obj %}
+    <h3>{{ quest.text }}</h3>
+    <input type="text" id="quest_id" value="{{ quest.id }}"><br>
+    <br><br>
     {% for answer in quest.answer.all %}
-    <input type="radio" name="select" id="select {{ forloop.counter }}" value="{{ answer.is_valid }}" onclick="radioSelect(this)">
-    <label>{{ answer.text }}</label><br><br>
+        <input type="radio" name="select" id="select {{ forloop.counter }}" value="{{ answer.is_valid }}" onclick="radioSelect(this)">
+        <label>{{ answer.text }}</label><br><br>
     {% endfor %}
-
-    <br>
-
-    <div class="list_answer">
-        <form method="GET">
-            <input type="text" name="select_number" value="False"><br>
-            <input type="text" name="quest_id" value="{{ quest.id }}"><br>
-            {% if page_obj.has_next %}
-                <button name="btn_test" value="btn_next">Следующий вопрос</button>
-            {% else %}
-                <button name="btn_test" value="btn_finish">Завершить</button>
-            {% endif %}
-        </form>
-    </div>
-
 {% endfor %}
 
-<script src="{% static 'js/script.js' %}"></script>
+<hr><br>
 
+{% if page_obj.has_next %}
+    <button onclick="window.location.href = '?page={{ page_obj.next_page_number }}';">Следующий вопрос</button>
+{% else %}
+    <!-- Если нет следующей страницы -->
+    <form method="GET">
+        <button name="btn_test" value="" id="btn_finish" onclick="buttontConfirm()">Завершить тест</button>
+    </form>
+{% endif %}
+
+
+<script src="{% static 'js/script.js' %}"></script>
 
 {% endblock %}
 
 
+<!--<button id="buttont_confirm" onclick="buttontConfirm()">Подтвердить ответ</button>-->
+
+<!--<form>-->
+<!--    <input type="hidden" name="select_number" id="result_id" value="False"><br>-->
+<!--    <button name="btn_test" value="btn_next" onclick="window.location.href = '?page={{ page_obj.next_page_number }}';">Следующий вопрос</button>-->
+<!--</form>-->
 
 
+<!--<form>-->
+<!--    <input type="hidden" name="select_number" id="result_id" value="False"><br>-->
+<!--    <button name="btn_test" value="btn_next">Подтвердить ответ</button>-->
+<!--</form>-->
+
+
+
+<!-- <div class="list_answer">-->
+<!--        <form method="GET">-->
+<!--            <input type="text" name="select_number" value="False"><br>-->
+<!--            <input type="text" name="quest_id" value="{{ quest.id }}"><br>-->
+<!--            {% if page_obj.has_next %}-->
+<!--                <button name="btn_test" value="btn_next">Следующий вопрос</button>-->
+<!--            {% else %}-->
+<!--                <button name="btn_test" value="btn_finish">Завершить</button>-->
+<!--            {% endif %}-->
+<!--        </form>-->
+<!--    </div>-->
 
 
