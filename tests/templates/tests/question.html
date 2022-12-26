@@ -12,7 +12,7 @@
 <br>
 {% for quest in page_obj %}
     <h3>{{ quest.text }}</h3>
-    <input type="text" id="quest_id" value="{{ quest.id }}"><br>
+    <input type="hidden" id="quest_id" value="{{ quest.id }}"><br>
     <br><br>
     {% for answer in quest.answer.all %}
         <input type="radio" name="select" id="select {{ forloop.counter }}" value="{{ answer.is_valid }}" onclick="radioSelect(this)">

@@ -1,4 +1,5 @@
 
+
 function radioSelect(node) {
     const quest_id = document.getElementById('quest_id');
     sessionStorage.setItem(quest_id.value, node.value);
@@ -15,7 +16,7 @@ function buttontConfirm() {
 //        console.log(s)
 //      alert(`${key}: ${sessionStorage.getItem(key)}`);
     }
-    btn_finish.value = s
+    btn_finish.value = s;
     sessionStorage.clear();
 }
 

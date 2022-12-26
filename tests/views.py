@@ -36,6 +36,6 @@ class QuestionView(generic.ListView):
 def calculateAnswer(resultAnswer):
     list = resultAnswer.split(',')
     count = list.count('True')
-    result = f"Количество правильных ответов: {count}"
+    result = f"Количество правильных ответов: {count} из {len(list)}"
     return result
 
